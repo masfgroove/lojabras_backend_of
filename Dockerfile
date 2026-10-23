@@ -2,6 +2,11 @@
 FROM eclipse-temurin:17-jdk-jammy AS build
 WORKDIR /app
 COPY . .
+
+# Dá permissão de execução ao script do Maven Wrapper
+RUN chmod +x ./mvnw
+
+# Executa o build sem testes
 RUN ./mvnw clean package -DskipTests
 
 # Etapa 2: Execução da aplicação
