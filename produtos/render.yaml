@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: lojabras-backend
+    env: maven
+    region: ohio # Ou outra região de sua preferência (ex: oregon, frankfurt)
+    plan: free
+    buildCommand: "./mvnw clean package -DskipTests"
+    startCommand: "java -jar target/*.jar"
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://aws-0-us-east-2.pooler.supabase.com:6543/postgres
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres.woenjrseqqipoyvqqjul
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: Ma@0102464748
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: "true"
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+        value: org.hibernate.dialect.PostgreSQLDialect
+      - key: SERVER_PORT
+        value: "5678"
+      - key: SERVER_ADDRESS
+        value: 0.0.0.0
