@@ -18,6 +18,7 @@ public class CategoriaServico {
         return repositorio.findAll();
     }
 
+    
     // Cadastrar ou Alterar categoria
     public Categoria cadastrar(Categoria categoria) {
         return repositorio.save(categoria);
