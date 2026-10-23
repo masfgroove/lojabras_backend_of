@@ -11,18 +11,17 @@ public class Categoria {
     private Long id;
     
     private String descricao;
+    private String nome;
 
-    // Construtor vazio (obrigatório para o JPA/Spring)
     public Categoria() {
     }
 
-    // Construtor com argumentos
-    public Categoria(Long id, String descricao) {
+    public Categoria(Long id, String descricao, String nome) {
         this.id = id;
         this.descricao = descricao;
+        this.nome = nome;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -37,5 +36,13 @@ public class Categoria {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
