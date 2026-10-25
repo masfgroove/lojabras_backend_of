@@ -23,9 +23,14 @@ public class Produto {
     @Column(name = "quantidade_estoque", nullable = false)
     private Integer quantidadeEstoque;
 
+    // Adicionando a coluna para a URL da imagem
+    @Column(name = "url_img", columnDefinition = "TEXT")
+    private String urlImg;
+
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = true) // Pode ser true caso o produto possa ser cadastrado sem categoria temporariamente
+    @JoinColumn(name = "categoria_id", nullable = true)
     private Categoria categoria;
+    
 
     // Construtores
     public Produto() {}
@@ -45,6 +50,9 @@ public class Produto {
 
     public Integer getQuantidadeEstoque() { return quantidadeEstoque; }
     public void setQuantidadeEstoque(Integer quantidadeEstoque) { this.quantidadeEstoque = quantidadeEstoque; }
+
+    public String getUrlImg() { return urlImg; }
+    public void setUrlImg(String urlImg) { this.urlImg = urlImg; }
 
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }

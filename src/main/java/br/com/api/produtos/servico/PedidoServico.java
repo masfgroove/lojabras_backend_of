@@ -72,7 +72,10 @@ public class PedidoServico {
         pedido.setValorTotal(valorTotal);
         if (pedido.getStatus() == null || pedido.getStatus().isEmpty()) {
             pedido.setStatus("PENDING");
+            
         }
+
+        
 
         return pedidoRepositorio.save(pedido);
     }
