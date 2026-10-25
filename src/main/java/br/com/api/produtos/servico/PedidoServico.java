@@ -32,7 +32,7 @@ public class PedidoServico {
 
     @Transactional
     public Pedido criarPedido(Pedido pedido) {
-        // 1. Valida e vincula o Cliente pelo ID
+        // 1. Valida e vincula o Cliente pelo ID enviado no JSON
         if (pedido.getCliente() != null && pedido.getCliente().getId() != null) {
             Cliente cliente = clienteRepositorio.findById(pedido.getCliente().getId())
                     .orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID: " + pedido.getCliente().getId()));
@@ -49,24 +49,21 @@ public class PedidoServico {
                 Produto produto = produtoRepositorio.findById(item.getProduto().getId())
                         .orElseThrow(() -> new RuntimeException("Produto não encontrado ID: " + item.getProduto().getId()));
 
-                // Verifica estoque
+                // Verifica se há estoque suficiente
                 if (produto.getQuantidadeEstoque() < item.getQuantidade()) {
                     throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getTitulo() + 
-                                               " (Disponível: " + produto.getQuantidadeEstoque() + ")");
+                                               " (Disponível em estoque: " + produto.getQuantidadeEstoque() + ")");
                 }
 
                 // Dá baixa no estoque do produto
                 produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - item.getQuantidade());
                 produtoRepositorio.save(produto);
 
-                // Configura o item do pedido
+                // Configura o preço unitário e o relacionamento com o pedido
                 item.setPrecoUnitario(produto.getPreco());
-                item.setItemPedido(pedido); // Ajuste se o método no OrderItem for setPedido
-
-                // Se o seu método no OrderItem.java se chama setPedido, use:
                 item.setPedido(pedido);
 
-                // Calcula subtotal e acumula no valor total
+                // Calcula o subtotal do item e soma ao valor total do pedido
                 BigDecimal subtotal = produto.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()));
                 valorTotal = valorTotal.add(subtotal);
             }
