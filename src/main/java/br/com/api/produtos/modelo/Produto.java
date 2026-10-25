@@ -14,6 +14,7 @@ public class Produto {
     @Column(nullable = false)
     private String titulo;
 
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
     @Column(nullable = false)
@@ -23,20 +24,28 @@ public class Produto {
     private Integer quantidadeEstoque;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "categoria_id", nullable = true) // Pode ser true caso o produto possa ser cadastrado sem categoria temporariamente
     private Categoria categoria;
+
+    // Construtores
+    public Produto() {}
 
     // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
     public String getTitulo() { return titulo; }
-    public String getDescricao() { return descricao; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
     public BigDecimal getPreco() { return preco; }
     public void setPreco(BigDecimal preco) { this.preco = preco; }
+
     public Integer getQuantidadeEstoque() { return quantidadeEstoque; }
     public void setQuantidadeEstoque(Integer quantidadeEstoque) { this.quantidadeEstoque = quantidadeEstoque; }
+
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }
-
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProdutoServico {
@@ -25,10 +26,16 @@ public class ProdutoServico {
 
     // Cadastrar ou Alterar produto
     public Produto cadastrar(Produto produto) {
-        // Se a categoria foi informada com ID, garantimos que ela existe/é gerenciada pelo JPA
+        // Valida se a categoria foi informada e se existe no banco
         if (produto.getCategoria() != null && produto.getCategoria().getId() != null) {
-            Categoria categoria = categoriaRepositorio.findById(produto.getCategoria().getId()).orElse(null);
-            produto.setCategoria(categoria);
+            Optional<Categoria> categoriaOpt = categoriaRepositorio.findById(produto.getCategoria().getId());
+            if (categoriaOpt.isPresent()) {
+                produto.setCategoria(categoriaOpt.get());
+            } else {
+                throw new RuntimeException("Categoria com ID " + produto.getCategoria().getId() + " não encontrada!");
+            }
+        } else {
+            produto.setCategoria(null);
         }
         return repositorio.save(produto);
     }
