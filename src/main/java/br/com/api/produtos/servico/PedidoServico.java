@@ -60,11 +60,13 @@ public class PedidoServico {
                 produtoRepositorio.save(produto);
 
                 // Configura o preço unitário e o relacionamento com o pedido
-                item.setPrecoUnitario(produto.getPreco());
+                // Convertendo o Double do produto para BigDecimal de forma segura
+                BigDecimal precoUnitario = BigDecimal.valueOf(produto.getPreco() != null ? produto.getPreco() : 0.0);
+                item.setPrecoUnitario(precoUnitario);
                 item.setPedido(pedido);
 
                 // Calcula o subtotal do item e soma ao valor total do pedido
-                BigDecimal subtotal = produto.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()));
+                BigDecimal subtotal = precoUnitario.multiply(BigDecimal.valueOf(item.getQuantidade()));
                 valorTotal = valorTotal.add(subtotal);
             }
         }
@@ -72,10 +74,7 @@ public class PedidoServico {
         pedido.setValorTotal(valorTotal);
         if (pedido.getStatus() == null || pedido.getStatus().isEmpty()) {
             pedido.setStatus("PENDING");
-            
         }
-
-        
 
         return pedidoRepositorio.save(pedido);
     }
