@@ -3,6 +3,7 @@ package br.com.api.produtos.controle;
 import br.com.api.produtos.modelo.Produto;
 import br.com.api.produtos.servico.ProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,16 @@ public class ProdutoControle {
     @GetMapping
     public List<Produto> listar() {
         return servico.listar();
+    }
+
+    // ADICIONE ESTE MÉTODO ABAIXO
+    @GetMapping("/{id}")
+    public ResponseEntity<Produto> obterPorId(@PathVariable Long id) {
+        Produto produto = servico.obterPorId(id);
+        if (produto != null) {
+            return ResponseEntity.ok(produto);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping

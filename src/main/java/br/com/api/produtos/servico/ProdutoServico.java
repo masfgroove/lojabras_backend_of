@@ -24,6 +24,12 @@ public class ProdutoServico {
         return repositorio.findAll();
     }
 
+    // Buscar produto por ID
+    public Produto obterPorId(Long id) {
+        Optional<Produto> produto = repositorio.findById(id);
+        return produto.orElse(null);
+    }
+
     // Cadastrar ou Alterar produto
     public Produto cadastrar(Produto produto) {
         // Valida se a categoria foi informada e se existe no banco
