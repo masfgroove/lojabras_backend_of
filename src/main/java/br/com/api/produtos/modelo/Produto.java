@@ -1,7 +1,6 @@
 package br.com.api.produtos.modelo;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "lb_produtos")
@@ -11,31 +10,30 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String titulo;
-
+    
     @Column(columnDefinition = "TEXT")
     private String descricao;
-
-    @Column(nullable = false)
-    private BigDecimal preco;
-
-    @Column(name = "quantidade_estoque", nullable = false)
+    
+    private Double preco;
+    
     private Integer quantidadeEstoque;
-
-    // Adicionando a coluna para a URL da imagem
-    @Column(name = "url_img", columnDefinition = "TEXT")
+    
+    // URL da imagem principal (mantendo a compatibilidade com o que já tem)
     private String urlImg;
+    
+    // Novos campos inspirados no Mercado Livre
+    private String tamanhosDisponiveis; // Ex: "36,38,40,42,44"
+    private String coresDisponiveis;     // Ex: "Azul-claro, Azul-escuro, Preto"
+    private String badge;                // Ex: "NOVIDADE", "MAIS VENDIDO", "20% OFF"
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = true)
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
-    
 
-    // Construtores
+    // Construtores, Getters e Setters
     public Produto() {}
 
-    // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -45,14 +43,23 @@ public class Produto {
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public BigDecimal getPreco() { return preco; }
-    public void setPreco(BigDecimal preco) { this.preco = preco; }
+    public Double getPreco() { return preco; }
+    public void setPreco(Double preco) { this.preco = preco; }
 
     public Integer getQuantidadeEstoque() { return quantidadeEstoque; }
     public void setQuantidadeEstoque(Integer quantidadeEstoque) { this.quantidadeEstoque = quantidadeEstoque; }
 
     public String getUrlImg() { return urlImg; }
     public void setUrlImg(String urlImg) { this.urlImg = urlImg; }
+
+    public String getTamanhosDisponiveis() { return tamanhosDisponiveis; }
+    public void setTamanhosDisponiveis(String tamanhosDisponiveis) { this.tamanhosDisponiveis = tamanhosDisponiveis; }
+
+    public String getCoresDisponiveis() { return coresDisponiveis; }
+    public void setCoresDisponiveis(String coresDisponiveis) { this.coresDisponiveis = coresDisponiveis; }
+
+    public String getBadge() { return badge; }
+    public void setBadge(String badge) { this.badge = badge; }
 
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }
