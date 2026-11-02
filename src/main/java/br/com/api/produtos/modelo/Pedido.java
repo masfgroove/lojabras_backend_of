@@ -17,6 +17,11 @@ public class Pedido {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+    // Adicionar na classe Pedido.java se houver a coluna endereco_id no Supabase:
+    @ManyToOne
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
+
     @Column(name = "valor_total", nullable = false)
     private BigDecimal valorTotal;
 
