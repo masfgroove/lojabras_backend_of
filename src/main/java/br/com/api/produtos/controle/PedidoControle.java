@@ -2,6 +2,8 @@ package br.com.api.produtos.controle;
 
 import br.com.api.produtos.modelo.*;
 import br.com.api.produtos.repositorio.*;
+import br.com.api.produtos.servico.MercadoPagoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,20 @@ public class PedidoControle {
 
     @Autowired
     private EnderecoRepositorio enderecoRepositorio;
+
+    @Autowired
+private MercadoPagoService mercadoPagoService;
+
+@PostMapping("/pagar")
+public ResponseEntity<?> gerarPagamento(@RequestBody Map<String, Object> payload) {
+    try {
+        String linkPagamento = mercadoPagoService.criarPreferenciaPagamento(payload);
+        return ResponseEntity.ok(Map.of("initPoint", linkPagamento));
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(500).body(Map.of("erro", e.getMessage()));
+    }
+}
 
     @PostMapping
     public ResponseEntity criarPedido(@RequestBody Map<String, Object> payload) {
