@@ -1,4 +1,4 @@
-package com.lojabras.service;
+package br.com.api.produtos.servico;
 
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.PreferenceClient;

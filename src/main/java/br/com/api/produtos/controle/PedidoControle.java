@@ -35,16 +35,17 @@ public class PedidoControle {
     @Autowired
 private MercadoPagoService mercadoPagoService;
 
-@PostMapping("/pagar")
-public ResponseEntity<?> gerarPagamento(@RequestBody Map<String, Object> payload) {
-    try {
-        String linkPagamento = mercadoPagoService.criarPreferenciaPagamento(payload);
-        return ResponseEntity.ok(Map.of("initPoint", linkPagamento));
-    } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.status(500).body(Map.of("erro", e.getMessage()));
+
+    @PostMapping("/pagar")
+    public ResponseEntity<?> gerarPagamento(@RequestBody Map<String, Object> payload) {
+        try {
+            String linkPagamento = mercadoPagoService.criarPreferenciaPagamento(payload);
+            return ResponseEntity.ok(Map.of("initPoint", linkPagamento));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("erro", e.getMessage()));
+        }
     }
-}
 
     @PostMapping
     public ResponseEntity criarPedido(@RequestBody Map<String, Object> payload) {
