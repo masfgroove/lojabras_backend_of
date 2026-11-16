@@ -1,11 +1,11 @@
 services:
   - type: web
     name: lojabras-backend
-    env: maven
-    region: ohio # Ou outra região de sua preferência (ex: oregon, frankfurt)
+    env: docker           # Alterado de 'maven' para 'docker' para usar o Dockerfile
+    region: ohio 
     plan: free
-    buildCommand: "./mvnw clean package -DskipTests"
-    startCommand: "java -jar target/*.jar"
+    # Como você usa Dockerfile, o buildCommand e startCommand são lidos diretamente do Dockerfile.
+    # Mas se quiser manter via yaml sem Dockerfile, seria diferente. Usando Dockerfile, remova buildCommand/startCommand daqui ou mude para docker.
     envVars:
       - key: SPRING_DATASOURCE_URL
         value: jdbc:postgresql://aws-0-us-east-2.pooler.supabase.com:6543/postgres
@@ -19,7 +19,5 @@ services:
         value: "true"
       - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
         value: org.hibernate.dialect.PostgreSQLDialect
-      - key: SERVER_PORT
-        value: "5678"
-      - key: SERVER_ADDRESS
-        value: 0.0.0.0
+      # O Render injeta dinamicamente a porta na variável PORT. 
+      # No Spring Boot, mapeamos o server.port para pegar ${PORT:-5678}
