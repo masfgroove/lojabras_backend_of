@@ -14,6 +14,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
+
 # O Render define dinamicamente a porta na variável de ambiente $PORT.
 # O Spring Boot vai ler essa porta através do parâmetro server.port
 EXPOSE 1000
