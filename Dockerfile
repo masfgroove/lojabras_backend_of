@@ -16,6 +16,7 @@ COPY --from=build /app/target/*.jar app.jar
 
 # O Render define dinamicamente a porta na variável de ambiente $PORT.
 # O Spring Boot vai ler essa porta através do parâmetro server.port
-EXPOSE 8080
+EXPOSE 1000
 
 ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT:-8080}"]
+
