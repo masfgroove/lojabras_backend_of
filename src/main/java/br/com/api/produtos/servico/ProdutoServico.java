@@ -19,20 +19,16 @@ public class ProdutoServico {
     @Autowired
     private CategoriaRepositorio categoriaRepositorio;
 
-    // Listar todos os produtos
     public List<Produto> listar() {
         return repositorio.findAll();
     }
 
-    // Buscar produto por ID
     public Produto obterPorId(Long id) {
         Optional<Produto> produto = repositorio.findById(id);
         return produto.orElse(null);
     }
 
-    // Cadastrar ou Alterar produto
     public Produto cadastrar(Produto produto) {
-        // Valida se a categoria foi informada e se existe no banco
         if (produto.getCategoria() != null && produto.getCategoria().getId() != null) {
             Optional<Categoria> categoriaOpt = categoriaRepositorio.findById(produto.getCategoria().getId());
             if (categoriaOpt.isPresent()) {
@@ -44,5 +40,36 @@ public class ProdutoServico {
             produto.setCategoria(null);
         }
         return repositorio.save(produto);
+    }
+
+    public Produto atualizar(Long id, Produto produtoNovo) {
+        Optional<Produto> produtoOpt = repositorio.findById(id);
+        if (produtoOpt.isPresent()) {
+            Produto produtoExistente = produtoOpt.get();
+            produtoExistente.setTitulo(produtoNovo.getTitulo());
+            produtoExistente.setDescricao(produtoNovo.getDescricao());
+            produtoExistente.setPreco(produtoNovo.getPreco());
+            produtoExistente.setQuantidadeEstoque(produtoNovo.getQuantidadeEstoque());
+            produtoExistente.setUrlImg(produtoNovo.getUrlImg());
+            produtoExistente.setTamanhosDisponiveis(produtoNovo.getTamanhosDisponiveis());
+            produtoExistente.setCoresDisponiveis(produtoNovo.getCoresDisponiveis());
+            produtoExistente.setBadge(produtoNovo.getBadge());
+            
+            if (produtoNovo.getCategoria() != null && produtoNovo.getCategoria().getId() != null) {
+                Optional<Categoria> categoriaOpt = categoriaRepositorio.findById(produtoNovo.getCategoria().getId());
+                categoriaOpt.ifPresent(produtoExistente::setCategoria);
+            }
+
+            return repositorio.save(produtoExistente);
+        }
+        return null;
+    }
+
+    public boolean deletar(Long id) {
+        if (repositorio.existsById(id)) {
+            repositorio.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

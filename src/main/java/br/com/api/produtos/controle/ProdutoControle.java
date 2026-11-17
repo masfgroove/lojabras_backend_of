@@ -21,7 +21,6 @@ public class ProdutoControle {
         return servico.listar();
     }
 
-    // ADICIONE ESTE MÉTODO ABAIXO
     @GetMapping("/{id}")
     public ResponseEntity<Produto> obterPorId(@PathVariable Long id) {
         Produto produto = servico.obterPorId(id);
@@ -34,5 +33,23 @@ public class ProdutoControle {
     @PostMapping
     public Produto cadastrar(@RequestBody Produto produto) {
         return servico.cadastrar(produto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto produto) {
+        Produto atualizado = servico.atualizar(id, produto);
+        if (atualizado != null) {
+            return ResponseEntity.ok(atualizado);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        boolean removido = servico.deletar(id);
+        if (removido) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
