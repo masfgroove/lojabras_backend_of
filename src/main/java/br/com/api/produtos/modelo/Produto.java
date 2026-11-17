@@ -10,6 +10,7 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    
 
     private String titulo;
     
